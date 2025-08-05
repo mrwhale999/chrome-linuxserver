@@ -12,11 +12,11 @@ NC="\033[0m"
 echo -e "${GREEN}[1/12] Installing required dependencies...${NC}"
 sudo apt-get update && sudo apt-get install -y curl wget ufw ca-certificates gnupg lsb-release
 
-# === Step 2: Ask for credentials ===
-echo -e "${GREEN}[2/12] Enter Chromium Login Credentials...${NC}"
-read -p "Username: " CUSTOM_USER
-read -s -p "Password: " PASSWORD
-echo ""
+# # === Step 2: Ask for credentials ===
+# echo -e "${GREEN}[2/12] Enter Chromium Login Credentials...${NC}"
+# read -p "Username: " CUSTOM_USER
+# read -s -p "Password: " PASSWORD
+# echo ""
 
 # === Step 3: Docker Installation ===
 if ! command -v docker &> /dev/null; then
@@ -35,39 +35,39 @@ else
   echo -e "${YELLOW}[4/12] Docker Compose already installed.${NC}"
 fi
 
-# === Step 5: Create chromium directory ===
-mkdir -p $HOME/chromium/config
+# # === Step 5: Create chromium directory ===
+# mkdir -p $HOME/chromium/config
 
-# === Step 6: Generate docker-compose.yml ===
-echo -e "${GREEN}[5/12] Generating docker-compose.yml...${NC}"
+# # === Step 6: Generate docker-compose.yml ===
+# echo -e "${GREEN}[5/12] Generating docker-compose.yml...${NC}"
 
-cat <<EOF > docker-compose.yml
-version: "3.9"
+# cat <<EOF > docker-compose.yml
+# version: "3.9"
 
-services:
-  chromium:
-    image: lscr.io/linuxserver/chromium:8d3cb5f1-ls129
-    container_name: chromium
-    security_opt:
-      - seccomp:unconfined
-    environment:
-      - CUSTOM_USER=${CUSTOM_USER}
-      - PASSWORD=${PASSWORD}
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
-    volumes:
-      - ${HOME}/chromium/config:/config
-    ports:
-      - 4100:3000
-      - 4101:3001
-    shm_size: "1gb"
-    restart: unless-stopped
-EOF
+# services:
+#   chromium:
+#     image: lscr.io/linuxserver/chromium:8d3cb5f1-ls129
+#     container_name: chromium
+#     security_opt:
+#       - seccomp:unconfined
+#     environment:
+#       - CUSTOM_USER=${CUSTOM_USER}
+#       - PASSWORD=${PASSWORD}
+#       - PUID=1000
+#       - PGID=1000
+#       - TZ=Asia/Kolkata
+#     volumes:
+#       - ${HOME}/chromium/config:/config
+#     ports:
+#       - 4100:3000
+#       - 4101:3001
+#     shm_size: "1gb"
+#     restart: unless-stopped
+# EOF
 
-# === Step 7: Start the container ===
-echo -e "${GREEN}[6/12] Launching Chromium container...${NC}"
-sudo docker compose up -d
+# # === Step 7: Start the container ===
+# echo -e "${GREEN}[6/12] Launching Chromium container...${NC}"
+# sudo docker compose up -d
 
 # === Step 8: UFW Setup ===
 echo -e "${GREEN}[7/12] Setting up UFW firewall...${NC}"
